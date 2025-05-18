@@ -1,5 +1,5 @@
 -- Write your PostgreSQL query statement below
-select num as ConsecutiveNums
+select distinct num as Consecutivenums
 from 
 (select num, lag(NUM,1) over(order by id) as lag_1,
 lead(num,1) over(order by id) as lead_1
