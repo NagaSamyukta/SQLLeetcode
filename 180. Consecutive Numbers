@@ -1,0 +1,8 @@
+-- Write your PostgreSQL query statement below
+select num as ConsecutiveNums
+from 
+(select num, lag(NUM,1) over(order by id) as lag_1,
+lead(num,1) over(order by id) as lead_1
+from Logs
+)a
+where num=lag_1 and num=lead_1
