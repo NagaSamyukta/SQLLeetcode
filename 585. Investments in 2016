@@ -1,0 +1,20 @@
+-- Write your PostgreSQL query statement below
+with cte_t1 as (
+select lat, lon, count(*)
+from Insurance
+group by 1,2 
+having count(*)=1
+), cte_t2 as 
+(select tiv_2015
+from insurance
+group by 1
+having count(*)>1
+)
+select * from (
+select cast(sum(tiv_2016) as decimal) as tiv_2016
+from insurance t
+join cte_t1 t2
+on t.lat=t2.lat
+and t.lon=t2.lon
+join cte_t2  t1 
+on t1.tiv_2015=t.tiv_2015)
