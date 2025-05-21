@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION NthHighestSalary(N INT) RETURNS TABLE (Salary INT) AS $$
+BEGIN 
+IF N<1 THEN RETURN QUERY(SELECT NULL::INT AS salary);
+ELSE RETURN QUERY (
+    -- Write your PostgreSQL query statement below.
+    select distinct e.salary from employee e 
+      where N>1 AND N is not null order by salary desc  LIMIT 1 OFFSET N - 1
+  );
+ end IF; 
+END;
+$$ LANGUAGE plpgsql;
