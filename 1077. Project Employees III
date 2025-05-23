@@ -1,0 +1,7 @@
+select project_id,employee_id from (
+select p.project_id, p.employee_id, experience_years,
+dense_rank() over(partition by project_id order by experience_years desc) as rk
+from project p
+inner join employee e
+on p.employee_id=e.employee_id)
+where rk=1
