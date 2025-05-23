@@ -1,0 +1,14 @@
+-- Write your PostgreSQL query statement below
+with quest_deta as (
+select distinct question_id, q_num,
+sum(case when action='answer' then 1 else 0 end) as answered,
+sum(case when action='show' then 1 else 0 end) as showed
+from SurveyLog
+group by 1,2
+)
+select question_id as survey_log from (
+select question_id, q_num,round(answered*1.0/showed,2) as rate 
+from quest_deta
+order by rate desc,q_num 
+)a
+limit 1
