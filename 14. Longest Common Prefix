@@ -1,0 +1,11 @@
+select book_id,name 
+from (
+select b.book_id,case when quantity is null then 0 else quantity end as quantity,name from books b
+left join orders o
+on b.book_id=o.book_id
+and dispatch_date  >= '2019-06-23'::date - interval '1 YEAR' 
+and dispatch_date  <= '2019-06-23'
+where available_from <= '2019-06-23'::date - interval '1 month'
+)a 
+group by 1,2
+having  sum(quantity)<10
