@@ -1,0 +1,9 @@
+
+select id, 
+case when id = (select count(*) from Seat) and id%2!=0 then student
+when id%2!=0 then lead(student,1) over(order by id) 
+when id%2=0 then  lag(student,1)  over(order by id)
+else student
+end
+from Seat
+where student is not null
