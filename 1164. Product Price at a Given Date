@@ -1,0 +1,17 @@
+-- Write your PostgreSQL query statement below
+with chg_date as (
+select product_id,max(change_date) as mx_date
+from products
+where change_date<='2019-08-16'
+group by 1
+)
+select distinct p.product_id,new_price as price
+from products p
+inner join chg_date c
+on p.product_id=c.product_id
+and p.change_date = c.mx_date
+union
+select distinct product_id, 10
+from products 
+where change_date>'2019-08-16' 
+and product_id not in (select product_id from chg_date)
